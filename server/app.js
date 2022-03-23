@@ -2,7 +2,7 @@ import express from 'express'
 import * as mysql from 'mysql'
 import cors from 'cors'
 import * as dotenv from 'dotenv'
-import {createDb, createTables} from './createDB.js'
+import database from './createDB.js'
 
 dotenv.config()
 
@@ -16,8 +16,18 @@ app.use(express.urlencoded({ extended:false }))
 
 app.get('/', async(req, res) => {
     console.log('it works')
-    const msg = await createDb()
+    const msg = await database.createDatabase()
+    const createUser = await database.createUsersTable()
+    const createMovie = await database.createMoviesTable()
+    const createMovieFormat = await database.createMovieFormatTable()
+    const createBorrowing = await database.createBorrwingTable()
+    const createmovieFormatAvailableIn = await database.createAvailabilityFormatTable()
     console.log(msg)
+    console.log(createUser)
+    console.log(createMovie)
+    console.log(createMovieFormat)
+    console.log(createBorrowing)
+    console.log(createmovieFormatAvailableIn)
 })
 
 
