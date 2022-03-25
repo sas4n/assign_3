@@ -327,8 +327,37 @@ database.inserDataIntoMovieFormatAvailabilityTable = () => {
    
 }
 
+database.getUsers = () => {
+    return new Promise((resolve, reject) => {
+        const getUsersQuery = 'SELECT first_name, last_name FROM user;'
+        connectionPool.query(getUsersQuery, (err, results) => {
+            if(err) return reject(err)
+            resolve(results)
+        })
+    })
+}
 
+database.getMovies = () => {
+    return new Promise((resolve, reject) => {
+        const getMoviesQuery = 'SELECT name FROM movie;'
+        connectionPool.query(getMoviesQuery, (err, results) => {
+            if(err) return reject(err)
+            resolve(results)
+        })
+    })
+}
 
-
+database.getMovieOwner = (movieName) => {
+    return new Promise((resolve, reject) => {
+        const getMovieOwnerQuery = `SELECT first_name, last_name FROM user
+        JOIN movie ON
+        user.person_nr = movie.owner_person_nr
+        WHERE movie.name = ?`
+        connectionPool.query(getMovieOwnerQuery, [movieName], (err, result) => {
+            if (err) return reject(err)
+            resolve(result)
+        })
+    })
+}
 
 export default database 

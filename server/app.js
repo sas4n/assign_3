@@ -40,10 +40,32 @@ app.get('/', async(req, res) => {
     //res.send('success')
 })
 
+app.get('/getUsers', async(req, res) => {
+   /* console.log('getUser called')
+    const users = await database.getUsers()
+    console.log(users)
+    res.json({users : users})*/
+    database.getUsers()
+    .then(users => res.json({users : users}))
+    
+})
+
+app.get('/getMovies', (req, res) =>{
+    database.getMovies()
+    .then(movies => res.json({movies : movies}))
+})
+
 //list of all movie and their owner or just the movies
 
 
-//enter a movie name to see who is the owner_person_nr
+//enter a movie name to see who is the owner
+app.get('/getMoviesOwner/:movieName', (req, res) => {
+    const {movieName} = req.params
+    console.log(req.params)
+    console.log(movieName)
+    database.getMovieOwner(movieName)
+    .then((owner) => {res.json(owner)})
+})
 
 
 //name of persons who didnt returned the movie yet

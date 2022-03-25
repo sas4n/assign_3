@@ -9,9 +9,21 @@
   </head>
   <body>
     <h1>Welcome to movies Holder!</h1>
-    <label for="movie-name-input" id="movie-name-input">wnter the name of movie to see the owner</label>
+    <div>
+    <label for="movie-name-input">wnter the name of movie to see the owner</label>
     <input type="text" name="movie-name-input" id="movie-name-input" placeholder="Enter the name of movie">
-    <button type="button" class="create-db-btn">See Results</button>
+    <p id="owner"></p>
+    <button type="button" id="result-btn" class="result-btn">See Results</button>
+    </div>
+    <div id="list-parent">
+        <div class="list" id="show-users">
+           <p>List of users: </p>
+        </div>
+        <div class="list" id="show-movies">
+            <p>List of movies: </p>
+        </div>
+    </div>
+    
     <script defer src="index.js"></script>
   </body>
 </html>
