@@ -12,7 +12,6 @@ app.use(express.json())
 app.use(cors())
 app.use(express.urlencoded({ extended:false }))
 
-
 app.get('/', async(req, res) => {
     const msg = await database.createDatabase()
     const createUser = await database.createUsersTable()
@@ -30,7 +29,6 @@ app.get('/', async(req, res) => {
 })
 
 //list of all movie and their owner or just the movies
-
 app.get('/getUsers', async(req, res) => {
     database.getUsers()
     .then(users => res.json({users : users}))
