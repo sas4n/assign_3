@@ -1,5 +1,4 @@
 import express from 'express'
-import * as mysql from 'mysql'
 import cors from 'cors'
 import * as dotenv from 'dotenv'
 import database from './database.js'
@@ -26,25 +25,13 @@ app.get('/', async(req, res) => {
     const insertIntoMovieFormat = await database.inserDataIntoMovieFormatTable()
     const insertIntoBorrowing = await database.inserDataIntoBorrowingTable()
     const insertIntoAvailabilityFormat = await database.inserDataIntoMovieFormatAvailabilityTable()
-    console.log(insertIntoUserTable)
-    console.log(insertIntoMovie)
-    console.log(insertIntoMovieFormat)
-    console.log(insertIntoBorrowing)
     console.log(insertIntoAvailabilityFormat)
-    console.log('msg from db: ' + msg)
-    res.json({msg : 'hi'})
-    /*createmovieFormatAvailableIn.then(msg => {
-        console.log('msg from db1111: ' + msg)
-        res.json({msg : msg})
-    })*/
-    //res.send('success')
+    res.json({msg : 'Database created and all data inserted successfully'})
 })
 
+//list of all movie and their owner or just the movies
+
 app.get('/getUsers', async(req, res) => {
-   /* console.log('getUser called')
-    const users = await database.getUsers()
-    console.log(users)
-    res.json({users : users})*/
     database.getUsers()
     .then(users => res.json({users : users}))
     
@@ -55,35 +42,33 @@ app.get('/getMovies', (req, res) =>{
     .then(movies => res.json({movies : movies}))
 })
 
-//list of all movie and their owner or just the movies
-
 
 //enter a movie name to see who is the owner
 app.get('/getMoviesOwner/:movieName', (req, res) => {
     const {movieName} = req.params
-    console.log(req.params)
-    console.log(movieName)
     database.getMovieOwner(movieName)
     .then((owner) => {res.json(owner)})
 })
 
 
 //name of persons who didnt returned the movie yet
-
-
-
-//name of the most availaboe format that
-
-
+app.get('/get-borrower-name-not-returned-movie', (req, res) => {
+    database.getBorrowerNameAndMovieNotReturnedBack()
+    .then((data) => res.send(data))
+})
 
 // name of the movie which is borrowed most(most favorite movie)
-
-
+app.get('/getMostFavoriteMovie', async(req, res) =>{
+    await database.createView()
+    database.getMostFavoriteMovie()
+    .then((movieName) =>{res.json(movieName)})
+})
 
 //write a movie name and see what format is available for that movie
-
-
-
-
+app.get('/getAvailableFormat/:movieName', (req, res) => {
+    const {movieName} = req.params
+    database.getAvailableFormat(movieName)
+    .then((availableFormat) => {res.json(availableFormat)})
+})
 
 app.listen(port, () => console.log(`server is running on port ${port}`))

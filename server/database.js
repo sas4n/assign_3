@@ -32,7 +32,7 @@ const connectionPool = mysql.createPool({
     user : process.env.USER,
     password : process.env.PASSWORD,
     database : databaseName,
-    connectionLimit : 10
+    connectionLimit : 15
 })
 
 database.createUsersTable = () => {
@@ -54,7 +54,7 @@ database.createMoviesTable = () => {
     return new Promise((resolve, reject) => {
         const createMoviesTableQuery = `CREATE TABLE IF NOT EXISTS movie (
             id int NOT NULL AUTO_INCREMENT,
-            name varchar(20) NOT NULL,
+            name varchar(50) NOT NULL,
             director varchar(40),
             owner_person_nr int NOT NULL,
             PRIMARY KEY (id),
@@ -354,6 +354,59 @@ database.getMovieOwner = (movieName) => {
         user.person_nr = movie.owner_person_nr
         WHERE movie.name = ?`
         connectionPool.query(getMovieOwnerQuery, [movieName], (err, result) => {
+            if (err) return reject(err)
+            resolve(result)
+        })
+    })
+}
+
+database.getBorrowerNameAndMovieNotReturnedBack = () => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT first_name, last_name, movie.name FROM movies_database.user
+        JOIN borrowing_schedule ON user.person_nr = borrowing_schedule.borrower_person_nr
+        JOIN movie ON borrowing_schedule.movie_id = movie.id
+        WHERE date_returned IS NULL;`
+        connectionPool.query(query, (err, result) => {
+            if (err) return reject(err)
+           else{
+            resolve(result)
+           }
+            
+        })
+    })
+}
+
+database.createView = () => {
+    return new Promise((resolve, reject) => {
+        const query = `CREATE OR REPLACE VIEW number_each_movie_borrowed AS
+        SELECT movie.name, count(movie.name) AS number_borrowed FROM movie
+        JOIN borrowing_schedule on movie.id = borrowing_schedule.movie_id
+        GROUP BY movie.name;`
+        connectionPool.query(query, (err, result) => {
+            if (err) return reject(err)
+            resolve(result)
+        })
+    })
+}
+
+database.getMostFavoriteMovie = () => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT DISTINCT name FROM number_each_movie_borrowed
+        WHERE number_borrowed = (SELECT max(number_borrowed) FROM number_each_movie_borrowed);`
+        connectionPool.query(query, (err, result) => {
+            if (err) return reject(err)
+            resolve(result)
+        })
+    })
+}
+
+database.getAvailableFormat = (movieName) => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT movie_format.name FROM movie_format
+        JOIN available_format ON available_format.format_name = movie_format.name
+        JOIN movie ON movie.id = available_format.movie_id
+        WHERE movie.name = ?`
+        connectionPool.query(query, [movieName] , (err, result) => {
             if (err) return reject(err)
             resolve(result)
         })

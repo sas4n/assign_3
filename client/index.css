@@ -1,4 +1,10 @@
+.left-container {
+    float: left;
+}
 .list {
     float: right;
     margin-left: 30px;
+}
+.list-title {
+    font-size: 24px;
 }
