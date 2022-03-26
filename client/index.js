@@ -45,7 +45,6 @@ showavailableFormatsButton.addEventListener('click', () => {
     const resultHaveValues = document.querySelectorAll('.available-format-result')
     if(resultHaveValues.length > 0 || resultHaveValues.length !== undefined) {
         for(let i = 0; i < resultHaveValues.length;i++){
-            console.log('here')
             resultHaveValues[i].textContent = ''
         }
         
@@ -86,8 +85,16 @@ const showMovieOwnerName = (owner) => {
 
 const showPersonDidNotReturenedMovieAndMovieName = (data) => {
     const notReturnedMovieDiv = document.querySelector('#not-returned-movies')
+    const resultHasValue = document.querySelectorAll('.not-returned-movies')
+    if(resultHasValue.length > 0 || resultHasValue !== undefined) {
+        for (let i = 0; i < resultHasValue.length; i++) {
+            resultHasValue[i].textContent = ''
+        }
+    }
+    
     data.forEach((element) => {
         const par = document.createElement('p')
+        par.classList.add('not-returned-movies')
         par.textContent = `"${element.first_name} ${element.last_name}" did not return movie "${element.name}"`
         notReturnedMovieDiv.appendChild(par)
     })

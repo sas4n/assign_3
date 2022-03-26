@@ -1,3 +1,21 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+button {
+    background-color: rgb(122, 43, 250);
+    border-radius: 3px;
+    color: white;
+}
+.container {
+    margin: 30px;
+    border: 1px solid;
+    text-align: center;
+    padding: 10px;
+    min-height : 150px;
+    background-color: azure;
+}
+
 .left-container {
     float: left;
 }

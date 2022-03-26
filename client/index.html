@@ -8,30 +8,30 @@
     <title>Starter Snowpack App</title>
   </head>
   <body>
-    <h1>Welcome to movies Holder!</h1>
+    <h1>Welcome to Movie Organizer!</h1>
     <div class="left-container">
-      <div>
-        <label for="movie-name-input">Enter the name of movie to see the owner</label>
+      <div class="container">
+        <p>Enter the name of movie to see the owner</p>
         <input type="text" name="movie-name-input" id="movie-name-input" placeholder="Enter the name of movie">
+        <button type="button" id="result-btn" class="result-btn">See Results</button>
         <p id="owner"></p>
-      <button type="button" id="result-btn" class="result-btn">See Results</button>
       </div>
-      <div class="something">
-        <p>See who didnt return back the movie yet</p>
-        <button type="button" id="result1-btn">check who</button>
-        <div id="not-returned-movies">
+      <div class="container">
+          <p>See who didnt return back the movie yet</p>
+          <button type="button" id="result1-btn">check who</button>
+          <div id="not-returned-movies">
           
-        </div>
+          </div>
       </div>
-      <div id="favorite-movie-div">
-        <p>See the most favorite movie (the movie which is borrowed most)</p>
-        <button type="button" id="favorite-movie-btn">Result</button>
+      <div id="favorite-movie-div" class="container">
+          <p>See the most favorite movie (the movie which is borrowed most)</p>
+          <button type="button" id="favorite-movie-btn">Result</button>
   
       </div>
-      <div id="available-format-div">
-        <p>Enter a movie name to see the available formats</p>
-        <input type="text" id="movie-name-input2" placeholder="Enter a movie name">
-        <button type="button" id="available-format-btn">See Format(s)</button>
+      <div id="available-format-div" class="container">
+          <p>Enter a movie name to see the available formats</p>
+          <input type="text" id="movie-name-input2" placeholder="Enter a movie name">
+          <button type="button" id="available-format-btn">See Format(s)</button>
       </div>
     </div>
    
