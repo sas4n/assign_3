@@ -11,7 +11,8 @@ database.createDatabase = () => {
         const connection = mysql.createConnection({
             host: process.env.HOST || 'localhost',
             user : process.env.USER,
-            password : process.env.PASSWORD
+            password : process.env.PASSWORD,
+            port : process.env.DATABASE_PORT || 3306
         })
         const query = `CREATE DATABASE IF NOT EXISTS ${databaseName};`
         connection.query(query, (err, result) => {
@@ -32,6 +33,7 @@ const connectionPool = mysql.createPool({
     user : process.env.USER,
     password : process.env.PASSWORD,
     database : databaseName,
+    port: process.env.DATABASE_PORT || 3306,
     connectionLimit : 15
 })
 
